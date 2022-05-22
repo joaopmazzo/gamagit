@@ -13,11 +13,7 @@ export default function Home(props) {
     axios.get(`https://api.github.com/users/${usuario}/repos`)
       .then((response) => {
         const repositories = response.data;
-        const repositoriesName = [];
-        repositories.map((repository) => {
-          repositoriesName.push(repository.name);
-        })
-        localStorage.setItem('repositoriesName', JSON.stringify(repositoriesName));
+        localStorage.setItem('repositoriesData', JSON.stringify(repositories));
         setError(true);
         navigate('/repositories');
       })
@@ -30,9 +26,9 @@ export default function Home(props) {
     <S.HomeContainer>
       <S.Content>
         <S.Input className="usuarioInput" placeholder="Usuário" value={usuario} onChange={e => setUsario(e.target.value)} />
+        {error ? <S.ErrorMsg>Ocorreu um erro. Tente novamente</S.ErrorMsg> : ''}
         <S.Button type="button" onClick={handlePesquisa}>Pesquisar</S.Button>
       </S.Content>
-      {error ? <S.ErrorMsg>Ocorreu um erro. Tente novamente</S.ErrorMsg> : ''}
     </S.HomeContainer>
   );
 }
